@@ -1,4 +1,4 @@
-const { User, Disease, MedicalHistory, Symptomp } = require('../models')
+const { User, Disease, MedicalHistory, Symptomp, DiseaseSymptomp } = require('../models')
 const bcrypt = require('bcryptjs')
 const { main } = require('../helper/sentMail')
 const { Op } = require('sequelize')
@@ -24,11 +24,11 @@ class Controller {
             .then(userData => {
                 user = userData
                 // res.send(userData)
+                return Disease.findAll(options);
             })
-            Disease.findAll(options)
             .then(data => {
                 const foundedAt = Disease.dateFind(new Date())
-                res.render('home', { data, id, role, user, foundedAt, Disease})
+                res.render('home', { user, data, role, id, Disease, foundedAt })
             })
             .catch(err => {
                 res.send(err)
@@ -52,7 +52,7 @@ class Controller {
                     let theError = err.errors.map(el => {
                         return el.message
                     })
-                    res.send(theError)
+                    res.redirect(`/register?error=${theError}`)
                 }
                 console.log(err)
             })
@@ -82,7 +82,8 @@ class Controller {
                 }
             })
             .catch(err => {
-                res.send(err)
+                const error = 'Invalid username or password, please input the right one!!'
+                res.redirect(`/login?error=${error}`)
                 console.log(err)
             })
     }
@@ -185,23 +186,25 @@ class Controller {
     }
 
     static deleteDisease(req, res) {
-        const id = req.params.diseasesId
-        console.log(id)
-        
+        const id = req.params.diseasesId;
+      
         Disease.findByPk(id)
-            .then((result) => {
-                return result.destroy({
-                    cascade: true
-                })
-            })
-            .then(() => {
-                res.redirect('/')
-            })
-            .catch(err => {
-                console.log(err)
-                res.send(err)
-            })
-    }
+          .then((disease) => {
+            if (!disease) {
+              throw new Error('Disease not found');
+            }
+            return DiseaseSymptomp.destroy({
+              where: { DiseaseId: disease.id },
+            }).then(() => disease.destroy());
+          })
+          .then(() => {
+            res.redirect('/');
+          })
+          .catch((err) => {
+            console.log(err);
+            res.send(err);
+          });
+      }
 }
 
 module.exports = Controller

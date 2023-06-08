@@ -14,8 +14,24 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   DiseaseSymptomp.init({
-    DiseaseId: DataTypes.INTEGER,
-    SymptompId: DataTypes.INTEGER
+    DiseaseId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Diseases',
+        key: 'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    },
+    SymptompId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Symptomps',
+        key: 'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    }
   }, {
     sequelize,
     modelName: 'DiseaseSymptomp',
