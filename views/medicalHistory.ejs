@@ -1,16 +1,18 @@
 <%- include('./components/navHeader.ejs') %>
 
     <div class="container">
+        <a href="/"><button class="btn btn-outline-warning mt-5">Back</button></a>
+
         <h1>Medical History <%= data.username %></h1>
 
         <% if (!data.MedicalHistory) { %>
             <form class="mt-5" action="/medicalHistories/<%=data.id%>" method="post">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Diseases History</label>
+                    <label class="form-label">Diseases History</label>
                     <textarea class="form-control" name="diseasesHistory"></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Medicine Allergy</label>
+                    <label class="form-label">Medicine Allergy</label>
                     <textarea class="form-control" name="medicineAllergy"></textarea>
                 </div>
                 <button type="submit" class="btn btn-dark">Submit</button>
@@ -18,13 +20,14 @@
         <% } else { %>
             <form class="mt-5" action="/medicalHistoriesUpdate/<%=data.id%>" method="post">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Diseases History</label>
+                    <label class="form-label">Diseases History</label>
                     <textarea class="form-control" name="diseasesHistory"><%=data.MedicalHistory.diseasesHistory%></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Medicine Allergy</label>
+                    <label class="form-label">Medicine Allergy</label>
                     <textarea class="form-control" name="medicineAllergy"><%=data.MedicalHistory.medicineAllergy%></textarea>
                 </div>
+
                 <button type="submit" class="btn btn-dark">Submit</button>
             </form>
         <% } %>

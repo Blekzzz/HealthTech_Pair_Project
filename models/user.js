@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.MedicalHistory)
       User.hasMany(models.Disease)
     }
+
+    get welcome() {
+      return this.role + " - " + this.username 
+    }
   }
   User.init({
     username: {

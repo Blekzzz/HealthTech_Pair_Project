@@ -1,12 +1,34 @@
 const { User, Disease, MedicalHistory, Symptomp } = require('../models')
 const bcrypt = require('bcryptjs')
+const { main } = require('../helper/sentMail')
+const { Op } = require('sequelize')
 
 class Controller {
     static home(req, res) {
         const id = req.session.userId
-        Disease.findAll()
+        const role = req.session.role
+
+        const options = {
+            where: {}
+        }
+        let search = req.query.search
+        if (search) {
+            options.where.name = {
+                [Op.iLike]: `%${search}%`
+            }
+        }
+
+        let user;
+
+        User.findByPk(id)
+            .then(userData => {
+                user = userData
+                // res.send(userData)
+            })
+            Disease.findAll(options)
             .then(data => {
-                res.render('home', { data, id })
+                res.render('home', { data, id, role, user })
+                // res.send(data)
             })
             .catch(err => {
                 res.send(err)
@@ -16,13 +38,13 @@ class Controller {
 
     static register(req, res) {
         const error = req.query.error
-
         res.render('registerPage', { error })
     }
 
     static postRegister(req, res) {
         User.create(req.body)
             .then(() => {
+                main(req.body.email)
                 res.redirect('/login')
             })
             .catch(err => {
@@ -52,7 +74,7 @@ class Controller {
                 const isValidPass = bcrypt.compareSync(password, user.password)
                 if (isValidPass) {
                     req.session.userId = user.id
-                    req.session.userRole = user.role
+                    req.session.role = user.role
                     return res.redirect('/')
                 } else {
                     const error = 'Invalid username or password, please input the right one!!'
@@ -67,7 +89,6 @@ class Controller {
 
     static detailDiseases(req, res) {
         const diseasesId = req.params.diseasesId
-        // console.log(id)
         const id = req.session.userId
         Disease.findByPk(diseasesId, {
             include: Symptomp
@@ -83,9 +104,7 @@ class Controller {
     }
 
     static medicalHistory(req, res) {
-        // console.log(req.session.userId)
         const id = req.session.userId
-        // console.log(id)
 
         User.findByPk(id, {
             include: MedicalHistory
@@ -122,6 +141,61 @@ class Controller {
         })
             .then(() => {
                 res.redirect(`/medicalHistories/${id}`)
+            })
+            .catch(err => {
+                console.log(err)
+                res.send(err)
+            })
+    }
+
+    static addDiseases(req, res) {
+        const id = req.session.userId
+        Symptomp.findAll()
+            .then(symptomps => {
+                res.render('addDiseases', { symptomps, id })
+            })
+            .catch(err => {
+                console.log(err)
+                res.send(err)
+            })
+    }
+
+    static postAddDiseases(req, res) {
+        const { name, description, imageUrl, drug } = req.body
+        Disease.create({name, description, imageUrl, drug, UserId: 1})
+            .then(result => {
+                return result.addSymptomps(req.body.SymptompId)
+            })
+            .then(() => {
+                res.redirect('/')
+            })
+            .catch(err => {
+                console.log(err)
+                res.send(err)
+            })
+    }
+
+    static logout(req, res) {
+        req.session.destroy((err) => {
+            if(err) res.send(err)
+            else{
+                res.redirect("/login")
+            }
+        })
+    }
+
+    static deleteDisease(req, res) {
+        const id = req.params.diseasesId
+        console.log(id)
+        
+        Disease.findByPk(id)
+            .then((result) => {
+                return result.destroy({
+                    cascade: true
+                })
+            })
+            .then(() => {
+                res.redirect('/')
             })
             .catch(err => {
                 console.log(err)

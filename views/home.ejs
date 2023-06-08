@@ -1,13 +1,25 @@
 <%- include('./components/navHeader.ejs') %>
 
     <div class="container">
+        <h1>Hello <%= user.welcome %></h1>
         <h1>What's Your Diseases?</h1>
+
+        <form class="d-flex mt-5" action="/" method="get">
+            <input class="form-control me-2" type="search" placeholder="Search" name="search">
+            <button class="btn btn-success" type="submit">Search</button>
+        </form>
+
+        <% if (role == "doctor") { %>
+            <a href="/addDiseases" class="d-flex justify-content-end mt-5">Add another diseases</a>
+        <% } %>
+
 
         <table class="table">
             <thead>
                 <tr>
                     <th>No</th>
                     <th>Diseases</th>
+                    <th>Founded At</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -16,8 +28,12 @@
                     <tr>
                         <td><%= i + 1 %></td>
                         <td><%= el.name %></td>
+                        <td><%= el.dateFind(el.createdAt) %></td>
                         <td>
                             <a href="/diseases/<%=el.id%>"><button class="btn btn-dark">Detail</button></a>
+                            <% if (role == "doctor") { %>
+                                <a href="/delete/<%=el.id%>"><button class="btn btn-dark">Delete</button></a>
+                            <% } %>
                         </td>
                     </tr>
                 <% }) %>

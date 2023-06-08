@@ -1,0 +1,38 @@
+<%- include('./components/navHeader.ejs') %>
+
+    <div class="container">
+        <h1>Add new Diseases</h1>
+
+        <form class="mt-5" action="/addDiseases" method="post">
+            <div class="mb-3">
+                <label class="form-label">Diseases</label>
+                <input type="text" class="form-control" name="name">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Drugs</label>
+                <textarea class="form-control" name="drug"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" name="description"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Image Url</label>
+                <input type="text" class="form-control" name="imageUrl">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Symptomps</label>
+                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                  <% symptomps.forEach((el, i) => { %>
+                      <input type="checkbox" class="btn-check" id="btncheck<%= i+1 %>" value="<%= el.id %>" name="SymptompId">
+                      <label class="btn btn-outline-dark" for="btncheck<%= i+1 %>"><%= el.name %></label>
+                  <% }) %>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-dark">Submit</button>
+        </form>
+    </div>
+
+</body>
+</html>
