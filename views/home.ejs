@@ -28,7 +28,7 @@
                     <tr>
                         <td><%= i + 1 %></td>
                         <td><%= el.name %></td>
-                        <td><%= el.dateFind(el.createdAt) %></td>
+                        <td><%= Disease.dateFind(el.createdAt)%></td>
                         <td>
                             <a href="/diseases/<%=el.id%>"><button class="btn btn-dark">Detail</button></a>
                             <% if (role == "doctor") { %>

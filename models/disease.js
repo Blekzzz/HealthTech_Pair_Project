@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       Disease.belongsToMany(models.Symptomp, { onDelete: 'cascade', hooks: true, through: 'DiseaseSymptomps' })
     }
 
-    dateFind(date) {
+    static dateFind(date) {
       let day = date.getDate()
       let month = date.getMonth() + 1
       let year = date.getFullYear()

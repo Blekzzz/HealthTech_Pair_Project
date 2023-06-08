@@ -27,8 +27,8 @@ class Controller {
             })
             Disease.findAll(options)
             .then(data => {
-                res.render('home', { data, id, role, user })
-                // res.send(data)
+                const foundedAt = Disease.dateFind(new Date())
+                res.render('home', { data, id, role, user, foundedAt, Disease})
             })
             .catch(err => {
                 res.send(err)
