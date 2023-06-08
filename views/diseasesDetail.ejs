@@ -1,0 +1,20 @@
+<%- include('./components/navHeader.ejs') %>
+
+    <div class="container">
+        <h1><%= data.name %></h1>
+        <hr>
+        <h6>Apa itu <%= data.name %> ?<p><%= data.description %></p></h6>
+
+        
+        <h6>Gejala: </h6>
+        <% data.Symptomps.forEach(el => { %>
+            <ul>
+                <li><%= el.name %></li>
+            </ul>
+        <% }) %>
+
+        <h6>Penaganan: <%= data.drug %></h6>
+    </div>
+
+</body>
+</html>

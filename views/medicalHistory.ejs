@@ -1,0 +1,34 @@
+<%- include('./components/navHeader.ejs') %>
+
+    <div class="container">
+        <h1>Medical History <%= data.username %></h1>
+
+        <% if (!data.MedicalHistory) { %>
+            <form class="mt-5" action="/medicalHistories/<%=data.id%>" method="post">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Diseases History</label>
+                    <textarea class="form-control" name="diseasesHistory"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Medicine Allergy</label>
+                    <textarea class="form-control" name="medicineAllergy"></textarea>
+                </div>
+                <button type="submit" class="btn btn-dark">Submit</button>
+            </form>
+        <% } else { %>
+            <form class="mt-5" action="/medicalHistoriesUpdate/<%=data.id%>" method="post">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Diseases History</label>
+                    <textarea class="form-control" name="diseasesHistory"><%=data.MedicalHistory.diseasesHistory%></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Medicine Allergy</label>
+                    <textarea class="form-control" name="medicineAllergy"><%=data.MedicalHistory.medicineAllergy%></textarea>
+                </div>
+                <button type="submit" class="btn btn-dark">Submit</button>
+            </form>
+        <% } %>
+    </div>
+
+</body>
+</html>

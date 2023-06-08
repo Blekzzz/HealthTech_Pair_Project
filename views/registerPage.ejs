@@ -13,6 +13,13 @@
         <div class="d-flex justify-content-center">
             <h1>Register Page</h1>
         </div>
+
+        <% if (error) { %>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <p style="white-space: pre-line;"><%= error.split(',').join('\n') %></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+        <% } %>
         
         <form action="/register" method="post">
             <div class="mb-3">
