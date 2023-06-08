@@ -42,7 +42,17 @@ class Controller {
     }
 
     static postRegister(req, res) {
-        User.create(req.body)
+        User.findAll()
+            .then(user => {
+                let name = user.map(el => {
+                    return el.username
+                })
+                if (name.indexOf(req.body.username) >= 1) {
+                    const error = "email has been already used"
+                    return res.redirect(`/register/error=${error}`)
+                }
+                return User.create(req.body)
+            })
             .then(() => {
                 main(req.body.email)
                 res.redirect('/login')
@@ -151,9 +161,10 @@ class Controller {
 
     static addDiseases(req, res) {
         const id = req.session.userId
+        let error = req.query.error
         Symptomp.findAll()
             .then(symptomps => {
-                res.render('addDiseases', { symptomps, id })
+                res.render('addDiseases', { symptomps, id, error })
             })
             .catch(err => {
                 console.log(err)
@@ -171,8 +182,13 @@ class Controller {
                 res.redirect('/')
             })
             .catch(err => {
+                if (err.name == "SequelizeValidationError") {
+                    let theError = err.errors.map(el => {
+                        return el.message
+                    })
+                    res.redirect(`/addDiseases?error=${theError}`)
+                }
                 console.log(err)
-                res.send(err)
             })
     }
 

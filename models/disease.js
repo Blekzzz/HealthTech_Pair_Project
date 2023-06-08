@@ -31,11 +31,40 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Disease.init({
-    name: DataTypes.STRING,
-    description: DataTypes.TEXT,
-    drug: DataTypes.TEXT,
-    UserId: DataTypes.INTEGER,
-    imageUrl: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "name must be filled"
+        }
+      }
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "description must be filled"
+        }
+      }
+    },
+    drug: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "drug must be filled"
+        }
+      }
+    },
+    UserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    imageUrl: {
+      type: DataTypes.STRING
+    }
   }, {
     sequelize,
     modelName: 'Disease',

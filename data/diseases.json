@@ -17,14 +17,14 @@
         "name": "Migrain",
         "description": "Migrain adalah salah satu tipe dari sakit kepala. Migrain mungkin terjadi dengan disertai gejala seperti mual, muntah, atau sensitif terhadap cahaya dan suara. Pada umumnya, nyeri yang berdenyut hanya terasa pada salah satu sisi kepala. Migrain biasanya diobati dengan obat penghilang rasa sakit.",
         "drug": "Antipsikotik, Analgesik, Obat antiinflamasi non steroid, Stimulan",
-        "UserId": 2,
+        "UserId": 1,
         "imageUrl": "https://foto.kontan.co.id/3SbQz_keDe4745Jgbvzq_CcgC0k=/smart/2021/10/21/1010861754p.jpg"
     },
     {
         "name": "Diare",
         "description": "Diare adalah penyakit yang membuat penderitanya menjadi sering buang air besar dengan kondisi tinja yang encer atau berair. Diare umumnya terjadi akibat mengonsumsi makanan dan minuman yang terkontaminasi virus, bakteri, atau parasit.",
         "drug": "Obat Antibiotik, Obat pereda nyeri, ",
-        "UserId": 2,
+        "UserId": 1,
         "imageUrl": "https://cdn-2.tstatic.net/tribunnews/foto/bank/images/sakit-perut-setelah-makan-daging.jpg"
     }
 ]
