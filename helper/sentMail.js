@@ -1,15 +1,15 @@
 const nodemailer = require('nodemailer')
 
-async function main(email) {
+async function main(email, username) {
     let testAccount = await nodemailer.createTestAccount();
 
     let transporter = nodemailer.createTransport({
         host: "smtp.ethereal.email",
         port: 587,
-        secure: false, // true for 465, false for other ports
+        secure: false, 
         auth: {
-            user: testAccount.user, // generated ethereal user
-            pass: testAccount.pass, // generated ethereal password
+            user: testAccount.user, 
+            pass: testAccount.pass, 
         }
     })
     
@@ -17,7 +17,7 @@ async function main(email) {
         from: " 'HealthTech' <no-reply@gmail.com>",
         to: email,
         subject: "Hello ✔\nWelcome to HealthTech! What's Your Diseases?",
-        text: "Please verify your account, click the button bellow!",
+        text: `Welcome to our website ${username}. Please verify your account, click the button bellow!`,
         html: "<button>Verify your account</button>"
     })
 

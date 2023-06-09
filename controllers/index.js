@@ -54,7 +54,7 @@ class Controller {
                 return User.create(req.body)
             })
             .then(() => {
-                main(req.body.email)
+                main(req.body.email, req.body.username)
                 res.redirect('/login')
             })
             .catch(err => {

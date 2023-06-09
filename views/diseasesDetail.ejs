@@ -10,14 +10,14 @@
         <img src="<%= data.imageUrl %>" width="500" height="400">
 
         
-        <h6>Gejala: </h6>
+        <h6>Gejala : </h6>
         <% data.Symptomps.forEach(el => { %>
             <ul>
                 <li><%= el.name %></li>
             </ul>
         <% }) %>
 
-        <h6>Penaganan: <%= data.drug %></h6>
+        <h6>Penaganan/Obat : <%= data.drug %></h6>
     </div>
 
 </body>
